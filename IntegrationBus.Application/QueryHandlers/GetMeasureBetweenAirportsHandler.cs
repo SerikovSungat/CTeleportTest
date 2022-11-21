@@ -18,12 +18,12 @@ namespace IntegrationBus.Application.QueryHandlers
         {
             AirportDto airPortData = new AirportDto();
             string api = appConfig["AirportApi"];
-            double[] lon = new double[request.airIATAPortCodes.Count];
-            double[] lat = new double[request.airIATAPortCodes.Count];
+            double[] lon = new double[request.airIATAPortCodes.Length];
+            double[] lat = new double[request.airIATAPortCodes.Length];
 
             try
             {
-                for (int i = 0; i < request.airIATAPortCodes.Count; i++)
+                for (int i = 0; i < request.airIATAPortCodes.Length; i++)
                 {
                     var client = new RestClient($"{api}/{request.airIATAPortCodes[i]}");
                     var apiRequest = new RestRequest();

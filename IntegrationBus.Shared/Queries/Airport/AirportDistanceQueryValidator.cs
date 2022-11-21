@@ -6,17 +6,16 @@ namespace IntegrationBus.Shared.Queries.Airport
     {
         public AirportDistanceQueryValidator()
         {
-            RuleFor(x => x.airIATAPortCodes).NotNull().WithMessage("Нужно передать список IATA кодов как параметры");
+            RuleFor(x => x.airIATAPortCodes).NotNull().Must(x => x.Length < 2 && x.Length > 2);
             RuleFor(x => x.airIATAPortCodes).SetValidator(new StringDistanceQueryValidator());
         }
     }
 
-    public class StringDistanceQueryValidator : AbstractValidator<List<string>>
+    public class StringDistanceQueryValidator : AbstractValidator<string[]>
     {
         public StringDistanceQueryValidator()
         {
-            RuleFor(x => x).NotEmpty().NotNull().WithMessage("Заполните все параметры списка IATA кодов");
-            RuleFor(x => x).Must(x => x.Count == 3).WithMessage("Длина каждого IATA кода должен быть равен 3 символа");
+            RuleFor(x => x).NotEmpty().NotNull().Must(x => x.Length < 3 && x.Length > 3);
         }
     }
 }
