@@ -5,6 +5,6 @@ namespace IntegrationBus.Shared.Queries.Airport
 {
 	public class AirportDistanceQuery : IRequest<AirportDto>
 	{
-		public string[] airIATAPortCodes { get; set; }
+		public List<string> airIATAPortCodes { get; set; }
     }
 }

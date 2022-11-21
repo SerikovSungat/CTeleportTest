@@ -6,5 +6,6 @@
 		///Дистанция между аэропортами.
 		/// </summary>
 		public double Distance { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

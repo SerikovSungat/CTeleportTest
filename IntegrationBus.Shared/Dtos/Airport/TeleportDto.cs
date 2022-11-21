@@ -13,6 +13,7 @@
         public Location location { get; set; }
         public string type { get; set; }
         public int hubs { get; set; }
+        public string error { get; set; }
     }
     public class Location
     {

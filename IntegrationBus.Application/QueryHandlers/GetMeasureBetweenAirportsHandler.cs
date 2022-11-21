@@ -18,25 +18,29 @@ namespace IntegrationBus.Application.QueryHandlers
         {
             AirportDto airPortData = new AirportDto();
             string api = appConfig["AirportApi"];
+            double[] lon = new double[request.airIATAPortCodes.Count];
+            double[] lat = new double[request.airIATAPortCodes.Count];
 
-            double[] lon = new double[request.airIATAPortCodes.Length];
-            double[] lat = new double[request.airIATAPortCodes.Length];
-
-            for (int i = 0; i < request.airIATAPortCodes.Length; i++)
+            try
             {
-                var client = new RestClient($"{api}/{request.airIATAPortCodes[i]}");
-                var apiRequest = new RestRequest();
-                var response = await client.GetAsync<TeleportDto>(apiRequest, cancellationToken);
-
-                if (response != null)
+                for (int i = 0; i < request.airIATAPortCodes.Count; i++)
                 {
-                    lon[i] = response.location.lon;
-                    lat[i] = response.location.lat;
+                    var client = new RestClient($"{api}/{request.airIATAPortCodes[i]}");
+                    var apiRequest = new RestRequest();
+                    var response = await client.GetAsync<TeleportDto>(apiRequest, cancellationToken);
+                    if (response != null)
+                    {
+                        lon[i] = response.location.lon;
+                        lat[i] = response.location.lat;
+                    }
                 }
+
+                airPortData.Distance = Math.Sqrt(Math.Pow(lon[1] - lon[0], 2) + Math.Pow(lat[1] - lat[0], 2));
             }
-
-            airPortData.Distance = Math.Sqrt(Math.Pow(lon[1] - lon[0], 2) + Math.Pow(lat[1] - lat[0], 2));
-
+            catch (Exception ex)
+            {
+                airPortData.ErrorMessage = ex.Message;
+            }
             return airPortData;
         }
     }
